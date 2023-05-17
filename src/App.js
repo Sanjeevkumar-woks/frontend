@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "./App.css";
+import imgwhatsup from "./imgwhatsup.jpeg";
 const socket = io("http://localhost:5000");
 
 function App() {
@@ -24,15 +25,19 @@ function App() {
   return (
     <div className="App">
       <h1>React Chat Room</h1>
+      <div className="brand">
+        <img alt="img" height="50" src={imgwhatsup} />
+        <h1 className="user">{username}</h1>
+      </div>
       <div className="chatWindow">
         {messages.map((message, i) => (
           <div>
             {message.username === username ? (
-              <p key={i} className="you">
+              <p key={i} className="outgoing">
                 {message.message}
               </p>
             ) : (
-              <p key={i} className="other">
+              <p key={i} className="incoming">
                 {message.message}
               </p>
             )}
@@ -42,14 +47,17 @@ function App() {
       <form onSubmit={sendMessage}>
         <input
           type="text"
-          placeholder="Enter your name"
+          placeholder="Enter your name..."
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <br />
-        <input
+        <textarea
+          id="textarea"
+          cols="30"
+          rows="1"
+          placeholder="Write a message..."
           type="text"
-          placeholder="Type your message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
